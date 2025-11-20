@@ -1,14 +1,18 @@
+// mod app_state;
+// mod bridge_types;
+mod commands;
+
+use commands::on_change_state;
+use tauri::generate_context;
+use tauri::generate_handler;
+// use bridge_types::AppState
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // let mut app_state = AppState {};
     tauri::Builder::default()
-        .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
-        .run(tauri::generate_context!())
+        .invoke_handler(generate_handler![on_change_state])
+        .run(generate_context!())
         .expect("error while running tauri application");
 }
